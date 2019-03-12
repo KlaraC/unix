@@ -16,6 +16,8 @@ elif [  "$1" == "--typ" ]; then
  echo "znakove zarizeni"
  elif [ -b "$2" ]; then
  echo "blokove zarizeni"
+ elif [ -s "$2" ]; then
+ echo "socket"
  elif [ -p "$2" ]; then
  echo "fifo"
  elif [ -e "$2" ]; then 
