@@ -1,0 +1,17 @@
+1) V posledním případě se už nic nestane, protože chceme posouvat o 3, ale
+máme jen 2 parametry. 
+2)
+proměnná $# - Počet všech vstupních argumentů  
+${#promenna} - Vypíše se délka jednotlivých vstupních argumentů.
+${!promenna} - Proměnná je číslo, které reprezentuje kolikátý vstupní argument
+je v ní uložen.
+${promenna:-vyraz} - Pokud není v proměnné nic uloženo, uloží se do ní zadaný
+výraz, pro tuto chvíli.
+${promenna:cislo} - Je řetězec, který je brán až od zadané pozice(cislo)
+${promenna:cislo:cislo} - Je řetězec, který je brán od zadané pozice (prvni
+cislo) a jeho délka je druhé číslo.
+${promenna/vyraz/text} - První výskyt výrazu v daném řetězci se nahradí
+zadaným textem. 
+${promenna//vyraz/text} - Všechny výskyty výrazu se nahradí zadaným textem.
+
+Myslím, že @ nemůže být v ostatních příkladech použit.
