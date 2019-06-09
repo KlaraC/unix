@@ -1,24 +1,29 @@
 Mala() {
 while [ $# -gt 0 ]; do
-  if ( echo "$1" | grep -qe [ABCDEFGHIJKLOPQRSTUVWXYZ] ) ; then
+  if  echo "$1" | grep -qe [ABCDEFGHIJKLOPQRSTUVWXYZ] ; then
   b=`echo "$1"`
-  elif ( echo "$1" | grep -qe [M] ); then
+  elif  echo "$1" | grep -qe [M] ; then
   b=`echo "$1"`
-  elif ( echo "$1" | grep -qe [N] ); then
+  elif  echo "$1" | grep -qe [N] ; then
   b=`echo "$1"`
   else 
-  if ( ls | grep -qe `echo "$1" | tr a-z A-Z`) ; then
+  if [ -e "`echo "$1" | tr a-z A-Z`" ]; then
   echo "Soubor jiz existuje, nelze prejmenovat - " "$1" >&2
-  b=`echo "$1"`
+  b="`echo "$1"`"
   else
-  echo "$1"
-  mv "$1" `echo "$1" | tr a-z A-Z`
+  IFS=$'\n'
+  mv "$1" `echo "$1" | tr a-z  A-Z `
   b=`echo "$1" | tr a-z A-Z`
+  IFS=' 	
+  '
   fi
   fi
-  if  TestNaAdresar $b ; then 
-  cd `echo "$b"`
+  if  [ -d "$b" ] ; then 
+  cd "$b"
+  IFS=$'\n'
   Mala `ls`
+  IFS=' 	
+  '
   cd \.\.
   fi
 shift
@@ -27,32 +32,30 @@ done
 
 Velka() {
 while [ $# -gt 0 ]; do
-  if ( echo "$1" | grep -qe [[:lower:]]) ; then
+  if  echo "$1" | grep -qe [[:lower:]] ; then
   b=`echo "$1"`
   else
-  if ( ls | grep -qe ` echo "$1" | tr A-Z a-z`);then
+  if  [ -e  "` echo "$1" | tr A-Z a-z`" ]; then
   echo "Soubor jiz existuje, nelze prejmenovat - " "$1"  >&2
-  b=`echo "$1"`
+  b="`echo "$1"`"
   else
+    IFS=$'\n'
     mv "$1" `echo "$1" | tr A-Z a-z`
     b=`echo "$1" | tr A-Z a-z`
+    IFS=' 	
+    '
   fi
   fi
-  if TestNaAdresar "$b" ; then
-  cd `echo "$b"`
+  if [ -d "$b" ]; then
+  cd "$b"
+  IFS=$'\n'
   Velka `ls`
+  IFS=' 	
+  '
   cd \.\.
   fi
 shift
 done
-}
-
-TestNaAdresar() {
-if [ -d "$1" ] ; then
-return 0
-else 
-return 1
-fi
 }
 
 if [ "$1" == "-r" ]; then 
@@ -62,14 +65,20 @@ else a="a"
 fi
 if [ "$a" == "-r" ]; then
 if [ $# -gt 0 ]; then
-Mala `echo $@`
+Mala  "$@"
 else
+IFS=$'\n'
 Mala `ls`
+IFS=' 	
+'
 fi
 else
 if [ $# -gt 0 ]; then 
-Velka `echo $@`
+Velka "$@"
 else
+IFS=$'\n'
 Velka `ls`
+IFS=' 	
+'
 fi
 fi
